@@ -4,7 +4,7 @@ name: eShopOnWeb Build and Test
 #on: [push, pull_request, workflow_dispatch]
 
 env:
-  RESOURCE-GROUP: az2006-rg-new
+  RESOURCE-GROUP: az2006-rg
   LOCATION: eastus
   SUBSCRIPTION-ID: c9c10b0c-d382-4b0d-b1f1-43d3d7931e94
   WEBAPP-NAME: az2006app18139
