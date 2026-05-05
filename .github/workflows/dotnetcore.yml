@@ -3,7 +3,13 @@ name: eShopOnWeb Build and Test
 #Triggers (uncomment line below to use it)
 #on: [push, pull_request, workflow_dispatch]
 
-jobs:
+env:
+  RESOURCE-GROUP: az2006-rg-new
+  LOCATION: eastus
+  SUBSCRIPTION-ID: c9c10b0c-d382-4b0d-b1f1-43d3d7931e94
+  WEBAPP-NAME: az2006app18139
+
+jobs:  
   build:
     runs-on: ubuntu-latest
 
@@ -20,3 +26,17 @@ jobs:
 
       - name: Test with dotnet
         run: dotnet test ./eShopOnWeb.sln --configuration Release
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: deploy
+        uses: azure/arm-deploy@v2
+        with:
+          subscriptionId: ${{ env.SUBSCRIPTION-ID }}
+          resourceGroupName: ${{ env.RESOURCE-GROUP }}
+          template: bicep-template/webapp.bicep
+          parameters: "webAppName=${{ env.WEBAPP-NAME }} location=${{ env.LOCATION }}"
+          failOnStdErr: false
