@@ -40,3 +40,12 @@ jobs:
           template: bicep-template/webapp.bicep
           parameters: "webAppName=${{ env.WEBAPP-NAME }} location=${{ env.LOCATION }}"
           failOnStdErr: false
+
+      - name: 'Azure Load Testing'
+        uses: Azure/load-testing@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          loadtest-res: az2006loadtest18139
+          loadtest-resource-group: az2006-rg
+          test-plan: tests/SampleApp.jmx
+          description: 'Automated load test from GitHub Actions'
